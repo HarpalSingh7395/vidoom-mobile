@@ -7,43 +7,50 @@ import { CalendarArrowDown } from "~/lib/icons/CalendarArrowDown"
 import { Video } from "~/lib/icons/Video"
 import CustomDrawerContent from '~/components/CustomDrawerContent';
 import { StreamClientProvider } from '~/providers/StreamClientProvider';
-import { Stack } from 'expo-router';
 
 export default function RootLayout() {
   return (
     <StreamClientProvider>
       <GestureHandlerRootView>
-        <Stack
+        <Drawer
           screenOptions={{
             ...configureHeaderForExpoRouter({
               headerStyle: { backgroundColor: 'white' },
               headerTintColor: 'black',
             }),
-            headerShown: false
           }}
+          drawerContent={CustomDrawerContent}
         >
-          <Stack.Screen
-            name="dashboard"
+          <Drawer.Screen
+            name="index"
             options={{
               title: "Dashboard",
               headerShown: false,
+              drawerIcon: ({ color, size }) => (<LayoutDashboard size={18} color={color} />)
             }}
           />
           <Drawer.Screen
-            name="meeting"
+            name="scheduled"
             options={{
-              title: "Meeting",
-              headerShown: false,
+              title: "Scheduled",
+              drawerIcon: ({ color, size }) => (<CalendarArrowUp size={18} color={color} />)
             }}
           />
           <Drawer.Screen
-            name="profile"
+            name="previous"
             options={{
-              title: "Profile",
-              headerShown: true
+              title: "Previous",
+              drawerIcon: ({ color, size }) => (<CalendarArrowDown size={18} color={color} />)
             }}
           />
-        </Stack>
+          <Drawer.Screen
+            name="recordings"
+            options={{
+              title: "Recordings",
+              drawerIcon: ({ color, size }) => (<Video size={18} color={color} />)
+            }}
+          />
+        </Drawer>
       </GestureHandlerRootView>
     </StreamClientProvider>
   );

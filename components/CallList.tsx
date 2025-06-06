@@ -87,7 +87,7 @@ export default function CallList({ type }: CallListProps) {
                     }
                     return <CallCard
                         date={(call as Call).state.startsAt?.toLocaleString()}
-                        link={(process.env.NEXT_PUBLIC_APP_URL || window.location.origin) + "/meeting/" + (call as Call).id}
+                        link={"/meeting/" + (call as Call).id}
                         type={type}
                         key={(call as Call).id}
                         title={(call as Call).state.custom.name}

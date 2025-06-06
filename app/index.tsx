@@ -8,7 +8,7 @@ export default function Page() {
   return (
     <SafeAreaView>
       <SignedIn>
-        <Redirect href={"/(home)"} />
+        <Redirect href={"/(home)/(dashboard)"} />
       </SignedIn>
       <SignedOut>
         <Redirect href={"/(auth)/sign-in"} />

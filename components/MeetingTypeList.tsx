@@ -12,35 +12,42 @@ import { useRouter } from 'expo-router';
 import { Button } from '~/components/ui/button';
 import ScheduleMeetingForm from './ScheduleMeetingForm';
 import JoinMeetingForm from '~/components/JoinMeetingForm';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Text } from '~/components/ui/text';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-native-sdk';
 import * as Crypto from 'expo-crypto';
 
 
 export default function MeetingTypeList() {
+    const [isLoading, setIsLoading] = useState(false);
     const [meetingType, setMeetingType] = useState<'newMeeting' | 'scheduleMeeting' | 'viewRecordings' | 'joinMeeting'>();
     const [callDetails, setCallDetails] = useState<Call>();
     const router = useRouter();
     const { user } = useUser();
     const videoClient = useStreamVideoClient();
-    const createMeeting = () => {
+    const createMeeting = async () => {
         if (!user || !videoClient) return;
+        setIsLoading(true);
         try {
             const id = Crypto.randomUUID();
             const call = videoClient.call('default', id);
             if (!call) throw new Error("Unable to create a new meeting.");
 
-            call.getOrCreate({
+            await call.getOrCreate({
                 members_limit: 5,
                 data: {
                     starts_at: new Date().toISOString(),
                 }
             })
+            console.log("ID is ============>", call.id)
             setCallDetails(call)
-            router.navigate(`/(home)/${call.id}`)
+            onCloseModal()
+            router.navigate(`/(home)/meeting/${call.id}`)
         } catch (error) {
             console.log(error)
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -49,6 +56,7 @@ export default function MeetingTypeList() {
         datetime: Date;
     }) => {
         if (!user || !videoClient) return;
+        setIsLoading(true);
         try {
             const id = Crypto.randomUUID();
             const call = videoClient.call('default', id)
@@ -63,11 +71,13 @@ export default function MeetingTypeList() {
                     }
                 }
             })
-
             setCallDetails(call)
         }
         catch (error) {
             console.log(error)
+        }
+        finally {
+            setIsLoading(false);
         }
     }
 
@@ -93,8 +103,8 @@ export default function MeetingTypeList() {
             title='Start Meeting'
             description='Launch an immediate meeting session.'
         >
-            <Button onPress={createMeeting}>
-                <Text>Start Now</Text>
+            <Button disabled={isLoading} onPress={createMeeting}>
+                {isLoading?<ActivityIndicator />:<Text>Start Now</Text>}
             </Button>
         </MeetingDialog>
         <MeetingDialog
