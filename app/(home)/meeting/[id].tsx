@@ -1,6 +1,6 @@
 import { View, Text, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useUser } from '@clerk/clerk-expo';
 import { useGetCallById } from '~/hooks/useGetCallById';
 import { StreamCall, StreamTheme } from '@stream-io/video-react-native-sdk';
@@ -11,6 +11,7 @@ export default function page() {
     const { id } = useLocalSearchParams();
     const { isLoaded } = useUser();
     const [isReady, setIsReady] = useState<boolean>(false);
+    const router = useRouter();
 
     const { call, isLoading: isLoadingCall } = useGetCallById(id);
 
@@ -18,6 +19,10 @@ export default function page() {
         if (!call) return;
         call.join();
         setIsReady(true);
+    }
+
+    const onExit = () => {
+        router.back();
     }
 
     useEffect(() => {
@@ -32,7 +37,7 @@ export default function page() {
     return (
         <StreamCall call={call}>
             <StreamTheme>
-                {isReady? <CallScreen call={call} goToHomeScreen={() => setIsReady(false)} /> : <HomeScreen goToCallScreen={onJoinCall} />}
+                {isReady? <CallScreen call={call} goToHomeScreen={() => setIsReady(false)} /> : <HomeScreen onExit={onExit} goToCallScreen={onJoinCall} />}
                 </StreamTheme>
         </StreamCall>
     )
