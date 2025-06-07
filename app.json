@@ -45,7 +45,7 @@
           "image": "./assets/images/logo-transparent.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#232323"
+          "backgroundColor": "#FFFFFF"
         }
       ],
       "expo-font",

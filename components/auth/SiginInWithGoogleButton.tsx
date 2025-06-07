@@ -56,7 +56,7 @@ export default function SignInWithGoogle({ onError, onSuccess }: SignInWithGoogl
     return (
         <Button onPress={onPress} className="w-full flex flex-row items-center gap-4">
             {isSubmitting ? <ActivityIndicator /> : <>
-            <AntDesign name="google" size={20} color="red" />
+            <AntDesign name="google" size={20} color="white" />
                 <Text>Sign In with Google</Text>
                 </>}
         </Button>

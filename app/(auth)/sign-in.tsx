@@ -1,7 +1,7 @@
 import { useSignIn } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router'
 import React from 'react'
-import { KeyboardAvoidingView, View, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { KeyboardAvoidingView, View, Platform, ScrollView, TouchableWithoutFeedback, Keyboard, Image, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useForm, Controller } from 'react-hook-form'
 import { Button } from '~/components/ui/button'
@@ -15,7 +15,7 @@ export default function Page() {
   const router = useRouter()
 
   // Define form validation with react-hook-form
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
       email: '',
       password: ''
@@ -63,9 +63,8 @@ export default function Page() {
             keyboardShouldPersistTaps="handled"
           >
             <View className="flex flex-col gap-4 w-full px-8">
-              <View className="mb-8">
-                <Text className="text-8xl font-bold text-center">V</Text>
-                <Text className="text-md font-bold text-center">Vidoom</Text>
+              <View className="mb-8 w-full justify-center flex-row">
+                <Image className="text-8xl font-bold text-center w-36 h-36" source={require('~/assets/images/logo-transparent.png')} />
               </View>
 
               {/* Email Input with validation */}
@@ -123,8 +122,11 @@ export default function Page() {
                 name="password"
               />
 
-              <Button className="w-full" onPress={handleSubmit(onSignInPress)}>
-                <Text>Sign In</Text>
+              <Button disabled={isSubmitting} className="w-full" onPress={handleSubmit(onSignInPress)}>
+                {isSubmitting?<ActivityIndicator color={"white"} />:<Text>Sign In</Text>}
+              </Button>
+              <Button className="w-full" onPress={() => router.push('/sign-up')}>
+                <Text>Create new account</Text>
               </Button>
 
               <View className="relative w-full flex justify-center items-center">

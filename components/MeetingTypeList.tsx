@@ -8,7 +8,7 @@ import { Plus } from "~/lib/icons/Plus"
 import { CalendarHeart } from "~/lib/icons/CalendarHeart"
 import { Link } from "~/lib/icons/Link"
 import { Video } from "~/lib/icons/Video"
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { Button } from '~/components/ui/button';
 import ScheduleMeetingForm from './ScheduleMeetingForm';
 import JoinMeetingForm from '~/components/JoinMeetingForm';
@@ -21,7 +21,7 @@ import { toast } from 'sonner-native';
 import { cn } from '~/lib/utils';
 
 
-export default function MeetingTypeList({className}:  {className?: string} = {}) {
+export default function MeetingTypeList({ className }: { className?: string } = {}) {
     const [isLoading, setIsLoading] = useState(false);
     const [meetingType, setMeetingType] = useState<'newMeeting' | 'scheduleMeeting' | 'viewRecordings' | 'joinMeeting'>();
     const [callDetails, setCallDetails] = useState<Call>();
@@ -140,7 +140,12 @@ export default function MeetingTypeList({className}:  {className?: string} = {})
             description='Enter a meeting URL to join an existing session.'
         >
             <JoinMeetingForm onSubmit={async (values) => {
-                router.push('/meeting');
+                const url = values.url.trim();
+                const withoutQuery = url.split('?')[0]; // Remove query params
+                const segments = withoutQuery.split('/').filter(Boolean); // Split and remove empty strings
+                const meetingId = segments[segments.length - 1]; // Get the last segment
+
+                router.push('/meeting/' + meetingId as RelativePathString);
             }} />
         </MeetingDialog>
     </>
