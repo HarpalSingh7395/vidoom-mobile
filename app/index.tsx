@@ -2,7 +2,7 @@ import { SignedIn, SignedOut, useUser } from '@clerk/clerk-expo'
 import { Link, Redirect } from 'expo-router'
 import { verifyInstallation } from 'nativewind';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text } from '~/components/ui/text';
+import { Toaster } from 'sonner-native';
 
 export default function Page() {
   return (
@@ -13,6 +13,7 @@ export default function Page() {
       <SignedOut>
         <Redirect href={"/(auth)/sign-in"} />
       </SignedOut>
+      <Toaster />
     </SafeAreaView>
   )
 }

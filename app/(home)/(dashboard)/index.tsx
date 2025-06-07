@@ -1,8 +1,9 @@
 import React from 'react'
 import { useUser } from '@clerk/clerk-expo'
-import { View, Text, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import MeetingTypeList from '~/components/MeetingTypeList';
 import ProfileDropdown from '~/components/ProfileDropdown';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const tabs = [
     {
@@ -25,14 +26,7 @@ export default function index() {
     return (
         <SafeAreaView className="flex-1 bg-background">
             <StatusBar barStyle="dark-content" />
-            <View className="px-4 pt-2 pb-2 flex-row items-center">
-                <View className="flex-1">
-                    <Text className="text-foreground">{user?.firstName}</Text>
-                    <Text className="text-3xl font-bold text-foreground">Dashboard</Text>
-                </View>
-                <ProfileDropdown />
-            </View>
-            <MeetingTypeList />
+            <MeetingTypeList className='px-4' />
         </SafeAreaView>
     )
 }

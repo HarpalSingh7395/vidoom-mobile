@@ -16,9 +16,12 @@ import { ActivityIndicator, View } from 'react-native';
 import { Text } from '~/components/ui/text';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-native-sdk';
 import * as Crypto from 'expo-crypto';
+import * as Clipboard from 'expo-clipboard';
+import { toast } from 'sonner-native';
+import { cn } from '~/lib/utils';
 
 
-export default function MeetingTypeList() {
+export default function MeetingTypeList({className}:  {className?: string} = {}) {
     const [isLoading, setIsLoading] = useState(false);
     const [meetingType, setMeetingType] = useState<'newMeeting' | 'scheduleMeeting' | 'viewRecordings' | 'joinMeeting'>();
     const [callDetails, setCallDetails] = useState<Call>();
@@ -87,7 +90,7 @@ export default function MeetingTypeList() {
     }
 
     return (<>
-        <View className='w-full flex gap-4 p-4'>
+        <View className={cn('w-full flex gap-4', className)}>
             <View className='flex flex-row justify-center gap-4'>
                 <MeetingCard icon={<Plus className='text-white' />} title='Start Meeting' description='Start an instant meeting' type='new-meeting' className='bg-orange-600 flex-1 h-48' onPress={() => setMeetingType('newMeeting')} />
                 <MeetingCard icon={<CalendarHeart className='text-white' />} title='Schedule Meeting' description='Plan your meeting' type='new-meeting' className='bg-blue-600 flex-1 h-48' onPress={() => setMeetingType('scheduleMeeting')} />
@@ -104,7 +107,7 @@ export default function MeetingTypeList() {
             description='Launch an immediate meeting session.'
         >
             <Button disabled={isLoading} onPress={createMeeting}>
-                {isLoading?<ActivityIndicator />:<Text>Start Now</Text>}
+                {isLoading ? <ActivityIndicator /> : <Text>Start Now</Text>}
             </Button>
         </MeetingDialog>
         <MeetingDialog
@@ -114,19 +117,19 @@ export default function MeetingTypeList() {
             description='Plan and organize meetings for future dates and times.'
         >
             {callDetails ?
-                <div className='w-full flex flex-col justify-center gap-4'>
+                <View className='w-full flex flex-col justify-center gap-4'>
                     <Button className='w-full' onPress={() => {
                         router.push(`/meeting/${callDetails.id}`)
                     }}>
-                        Start
+                        <Text>Start</Text>
                     </Button>
-                    <Button className='w-full' variant={'outline'} onPress={() => {
-                        // Clipboard.set((process.env.NEXT_PUBLIC_APP_URL || window.location.origin) + "/meeting/" + callDetails.id)
-                        // toast("Link has been copied.")
+                    <Button className='w-full' variant={'outline'} onPress={async () => {
+                        await Clipboard.setStringAsync((process.env.EXPO_BASE_URL || "") + "/meeting/" + callDetails.id);
+                        toast("Link has been copied.");
                     }}>
-                        Copy Invitation Link
+                        <Text>Copy Invitation Link</Text>
                     </Button>
-                </div>
+                </View>
                 : <ScheduleMeetingForm onSubmit={onScheduleMeeting} />}
         </MeetingDialog>
 

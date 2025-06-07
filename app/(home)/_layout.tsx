@@ -1,50 +1,13 @@
-import { Drawer } from 'expo-router/drawer';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { configureHeaderForExpoRouter } from '~/components/CustomHeader';
-import { LayoutDashboard } from "~/lib/icons/LayoutDashboard"
-import { CalendarArrowUp } from "~/lib/icons/CalendarArrowUp"
-import { CalendarArrowDown } from "~/lib/icons/CalendarArrowDown"
-import { Video } from "~/lib/icons/Video"
-import CustomDrawerContent from '~/components/CustomDrawerContent';
-import { StreamClientProvider } from '~/providers/StreamClientProvider';
-import { Stack } from 'expo-router';
+import { View, Text } from 'react-native'
+import React from 'react'
+import { Stack } from 'expo-router'
 
-export default function RootLayout() {
+export default function _layout() {
   return (
-    <StreamClientProvider>
-      <GestureHandlerRootView>
-        <Stack
-          screenOptions={{
-            ...configureHeaderForExpoRouter({
-              headerStyle: { backgroundColor: 'white' },
-              headerTintColor: 'black',
-            }),
-            headerShown: false
-          }}
-        >
-          <Stack.Screen
-            name="dashboard"
-            options={{
-              title: "Dashboard",
-              headerShown: false,
-            }}
-          />
-          <Drawer.Screen
-            name="meeting"
-            options={{
-              title: "Meeting",
-              headerShown: false,
-            }}
-          />
-          <Drawer.Screen
-            name="profile"
-            options={{
-              title: "Profile",
-              headerShown: true
-            }}
-          />
-        </Stack>
-      </GestureHandlerRootView>
-    </StreamClientProvider>
-  );
+    <Stack 
+    screenOptions={{
+        headerShown: false
+    }}
+    />
+  )
 }

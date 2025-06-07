@@ -7,6 +7,9 @@ import { CalendarArrowDown } from "~/lib/icons/CalendarArrowDown"
 import { Video } from "~/lib/icons/Video"
 import CustomDrawerContent from '~/components/CustomDrawerContent';
 import { StreamClientProvider } from '~/providers/StreamClientProvider';
+import { DrawerToggleButton } from '@react-navigation/drawer';
+import { View } from 'react-native';
+import ProfileDropdown from '~/components/ProfileDropdown';
 
 export default function RootLayout() {
   return (
@@ -17,7 +20,9 @@ export default function RootLayout() {
             ...configureHeaderForExpoRouter({
               headerStyle: { backgroundColor: 'white' },
               headerTintColor: 'black',
-            }),
+              headerRight: () => <View className='flex flex-row items-center justify-end gap-2 mr-4'><ProfileDropdown /></View>,
+              headerLeft: () => <DrawerToggleButton />
+            })
           }}
           drawerContent={CustomDrawerContent}
         >
@@ -25,7 +30,6 @@ export default function RootLayout() {
             name="index"
             options={{
               title: "Dashboard",
-              headerShown: false,
               drawerIcon: ({ color, size }) => (<LayoutDashboard size={18} color={color} />)
             }}
           />

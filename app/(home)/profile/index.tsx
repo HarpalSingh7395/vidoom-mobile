@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { use, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -6,20 +6,24 @@ import {
   Animated,
   Dimensions,
   StatusBar,
+  Pressable,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { Ionicons } from '@expo/vector-icons';
-import { Redirect } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { Avatar, AvatarImage } from '~/components/ui/avatar';
 import * as Linking from 'expo-linking'
+import { ArrowLeft } from 'lucide-react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const { width, height } = Dimensions.get('window');
 
 const Profile = () => {
   const { signOut, isSignedIn } = useAuth();
+  const router = useRouter();
   const { user } = useUser();
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -27,18 +31,18 @@ const Profile = () => {
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
-   const handleSignOut = async () => {
-          try {
-              await signOut()
-              // Redirect to your desired page
-              Linking.openURL(Linking.createURL('/sign-in'))
-          } catch (err) {
-              // See https://clerk.com/docs/custom-flows/error-handling
-              // for more info on error handling
-              console.error(JSON.stringify(err, null, 2))
-          }
-      }
-  
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      // Redirect to your desired page
+      Linking.openURL(Linking.createURL('/sign-in'))
+    } catch (err) {
+      // See https://clerk.com/docs/custom-flows/error-handling
+      // for more info on error handling
+      console.error(JSON.stringify(err, null, 2))
+    }
+  }
+
 
   useEffect(() => {
     Animated.sequence([
@@ -71,6 +75,11 @@ const Profile = () => {
     ]).start();
   }, []);
 
+  const onBack = () => {
+    router.back();
+  };
+
+
   const spin = rotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
@@ -83,7 +92,6 @@ const Profile = () => {
   return (
     <View className="flex-1">
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
-
       {/* Animated Background */}
       <LinearGradient
         colors={['#667eea', '#764ba2', '#f093fb']}
@@ -91,6 +99,11 @@ const Profile = () => {
         end={{ x: 1, y: 1 }}
         className="absolute inset-0"
       />
+      <SafeAreaView className='top-4'>
+        <Pressable onPress={onBack} className='p-4'>
+          <ArrowLeft color={"white"} />
+        </Pressable>
+      </SafeAreaView>
 
       {/* Floating Geometric Shapes */}
       <Animated.View
@@ -131,7 +144,7 @@ const Profile = () => {
           </Avatar>
 
           <Text className="text-3xl font-bold text-white text-center mb-2">
-            {user?.fullName}
+            {user?.fullName?user?.fullName:user?.primaryEmailAddress?.emailAddress}
           </Text>
 
           <Text className="text-lg text-white/80 text-center">

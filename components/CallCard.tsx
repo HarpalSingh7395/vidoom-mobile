@@ -1,15 +1,16 @@
 import React from 'react'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '~/components/ui/card'
 import { Button } from '~/components/ui/button'
-import { useRouter } from 'expo-router';
+import { RelativePathString, useRouter } from 'expo-router';
 import { Video } from '~/lib/icons/Video';
 import { Play } from '~/lib/icons/Play';
 import { Copy } from '~/lib/icons/Copy';
 import { CheckCircle } from '~/lib/icons/CheckCircle';
 import { Calendar } from '~/lib/icons/Calendar';
-
-import { Alert, View } from 'react-native';
+import { View } from 'react-native';
 import { Text } from '~/components/ui/text';
+import { setStringAsync } from "expo-clipboard"
+import { toast } from 'sonner-native';
 
 type CallCardProps = {
     title: string;
@@ -21,13 +22,13 @@ type CallCardProps = {
 export default function CallCard({ title, date, link, type }: CallCardProps) {
     const router = useRouter()
     const onStartMeeting = () => {
-        if (link) router.push(link);
+        if (link) router.push(link as RelativePathString);
     }
 
     const onCopyLink = () => {
         if (!link) return;
-        navigator.clipboard.writeText(link)
-        Alert.alert("Link has been copied.")
+        setStringAsync((process.env.EXPO_BASE_URL || "") + link)
+        toast("Link has been copied.")
     }
 
     const getIcon = () => {

@@ -39,7 +39,7 @@ export default function ProfileDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <Avatar className="w-10 h-10 rounded-full" alt={''}>
+                <Avatar className="w-8 h-8 rounded-full" alt={''}>
                     <AvatarImage source={{ uri: user?.imageUrl }} />
                 </Avatar>
             </DropdownMenuTrigger>
