@@ -6,6 +6,7 @@ import { useGetCallById } from '~/hooks/useGetCallById';
 import { Lobby, StreamCall, StreamTheme } from '@stream-io/video-react-native-sdk';
 import { CallScreen } from '~/components/meeting/CallScreen';
 import { HomeScreen } from '~/components/meeting/HomeScreen';
+import { StreamClientProvider } from '~/providers/StreamClientProvider';
 
 export default function page() {
     const { id } = useLocalSearchParams();
@@ -26,19 +27,22 @@ export default function page() {
     }
 
     useEffect(() => {
+        console.log("Meeting loaded", id)
         return () => {
             if (!call) return;
             call.leave();
         }
     }, [call])
-    
+
 
     if (!isLoaded || isLoadingCall || !call) return <View className='flex-1 flex justify-center items-center'><ActivityIndicator /></View>;
     return (
-        <StreamCall call={call}>
-            <StreamTheme>
-                {isReady? <CallScreen call={call} goToHomeScreen={() => setIsReady(false)} /> : <Lobby onJoinCallHandler={onJoinCall} />}
+        <StreamClientProvider>
+            <StreamCall call={call}>
+                <StreamTheme>
+                    {isReady ? <CallScreen call={call} goToHomeScreen={onExit} /> : <Lobby onJoinCallHandler={onJoinCall} />}
                 </StreamTheme>
-        </StreamCall>
+            </StreamCall>
+        </StreamClientProvider>
     )
 }

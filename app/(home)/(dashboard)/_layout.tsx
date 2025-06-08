@@ -13,49 +13,47 @@ import ProfileDropdown from '~/components/ProfileDropdown';
 
 export default function RootLayout() {
   return (
-    <StreamClientProvider>
-      <GestureHandlerRootView>
-        <Drawer
-          screenOptions={{
-            ...configureHeaderForExpoRouter({
-              headerStyle: { backgroundColor: 'white' },
-              headerTintColor: 'black',
-              headerRight: () => <View className='flex flex-row items-center justify-end gap-2 mr-4'><ProfileDropdown /></View>,
-              headerLeft: () => <DrawerToggleButton />
-            })
+    <GestureHandlerRootView>
+      <Drawer
+        screenOptions={{
+          ...configureHeaderForExpoRouter({
+            headerStyle: { backgroundColor: 'white' },
+            headerTintColor: 'black',
+            headerRight: () => <View className='flex flex-row items-center justify-end gap-2 mr-4'><ProfileDropdown /></View>,
+            headerLeft: () => <DrawerToggleButton />
+          })
+        }}
+        drawerContent={CustomDrawerContent}
+      >
+        <Drawer.Screen
+          name="index"
+          options={{
+            title: "Dashboard",
+            drawerIcon: ({ color, size }) => (<LayoutDashboard size={18} color={color} />)
           }}
-          drawerContent={CustomDrawerContent}
-        >
-          <Drawer.Screen
-            name="index"
-            options={{
-              title: "Dashboard",
-              drawerIcon: ({ color, size }) => (<LayoutDashboard size={18} color={color} />)
-            }}
-          />
-          <Drawer.Screen
-            name="scheduled"
-            options={{
-              title: "Scheduled",
-              drawerIcon: ({ color, size }) => (<CalendarArrowUp size={18} color={color} />)
-            }}
-          />
-          <Drawer.Screen
-            name="previous"
-            options={{
-              title: "Previous",
-              drawerIcon: ({ color, size }) => (<CalendarArrowDown size={18} color={color} />)
-            }}
-          />
-          <Drawer.Screen
-            name="recordings"
-            options={{
-              title: "Recordings",
-              drawerIcon: ({ color, size }) => (<Video size={18} color={color} />)
-            }}
-          />
-        </Drawer>
-      </GestureHandlerRootView>
-    </StreamClientProvider>
+        />
+        <Drawer.Screen
+          name="scheduled"
+          options={{
+            title: "Scheduled",
+            drawerIcon: ({ color, size }) => (<CalendarArrowUp size={18} color={color} />)
+          }}
+        />
+        <Drawer.Screen
+          name="previous"
+          options={{
+            title: "Previous",
+            drawerIcon: ({ color, size }) => (<CalendarArrowDown size={18} color={color} />)
+          }}
+        />
+        <Drawer.Screen
+          name="recordings"
+          options={{
+            title: "Recordings",
+            drawerIcon: ({ color, size }) => (<Video size={18} color={color} />)
+          }}
+        />
+      </Drawer>
+    </GestureHandlerRootView>
   );
 }

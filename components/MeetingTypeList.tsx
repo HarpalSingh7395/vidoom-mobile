@@ -144,7 +144,8 @@ export default function MeetingTypeList({ className }: { className?: string } = 
                 const withoutQuery = url.split('?')[0]; // Remove query params
                 const segments = withoutQuery.split('/').filter(Boolean); // Split and remove empty strings
                 const meetingId = segments[segments.length - 1]; // Get the last segment
-
+                setMeetingType(undefined)
+                console.log('/meeting/' + meetingId as RelativePathString)
                 router.push('/meeting/' + meetingId as RelativePathString);
             }} />
         </MeetingDialog>
