@@ -1,11 +1,10 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useUser } from '@clerk/clerk-expo';
 import { useGetCallById } from '~/hooks/useGetCallById';
 import { Lobby, StreamCall, StreamTheme } from '@stream-io/video-react-native-sdk';
 import { CallScreen } from '~/components/meeting/CallScreen';
-import { HomeScreen } from '~/components/meeting/HomeScreen';
 import { StreamClientProvider } from '~/providers/StreamClientProvider';
 
 export default function page() {

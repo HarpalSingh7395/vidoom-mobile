@@ -46,13 +46,13 @@ export default function ProfileDropdown() {
 
             <DropdownMenuContent className="w-72 p-4 gap-2">
                 {/* User Info */}
-                <View className="flex-row items-center gap-2">
+                <View className="flex-row flex items-center gap-2">
                     <Avatar className="w-8 h-8 rounded-full" alt={''}>
                         <AvatarImage source={{ uri: user?.imageUrl }} />
                     </Avatar>
                     <View className="flex-1">
                         <Text className="font-semibold text-base text-foreground">
-                            {user?.fullName}
+                            {user?.fullName?user?.fullName:user?.primaryEmailAddress?.emailAddress.split('@')[0]}
                         </Text>
                         <Text className="text-xs text-muted-foreground">
                             {user?.primaryEmailAddress?.emailAddress}
@@ -70,9 +70,9 @@ export default function ProfileDropdown() {
                             <Text className="text-sm">Profile</Text>
                         </View>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                         <Text>Join Meeting</Text>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                 </DropdownMenuGroup>
 
                 <DropdownMenuSeparator />
