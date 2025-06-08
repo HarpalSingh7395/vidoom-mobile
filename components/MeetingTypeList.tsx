@@ -124,7 +124,7 @@ export default function MeetingTypeList({ className }: { className?: string } = 
                         <Text>Start</Text>
                     </Button>
                     <Button className='w-full' variant={'outline'} onPress={async () => {
-                        await Clipboard.setStringAsync((process.env.EXPO_BASE_URL || "") + "/meeting/" + callDetails.id);
+                        await Clipboard.setStringAsync((process.env.EXPO_PUBLIC_WEB_URL || "") + "/meeting/" + callDetails.id);
                         toast("Link has been copied.");
                     }}>
                         <Text>Copy Invitation Link</Text>

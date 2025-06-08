@@ -1,50 +1,113 @@
-# Welcome to your Expo app 👋
+# 📹 Vidoom – Video Meeting App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Vidoom** is a cross-platform video meeting application built with **Expo (Development Build)**, **React Native**, **Clerk**, and **GetStream.io**. It provides real-time video conferencing, scheduling, recordings, and user profile management, with a modular and reusable component architecture.
 
-## Get started
+---
 
-1. Install dependencies
+## ⚠️ Prerequisite
 
-   ```bash
-   npm install
-   ```
+> 🚨 **Use development builds instead of Expo Go.**  
+> The app uses native modules from **GetStream.io**, which are not supported in Expo Go.
 
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+Build a development client with:
 ```bash
-npm run reset-project
+npx expo run:android
+# or
+npx expo run:ios
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 📦 Tech Stack
 
-To learn more about developing your project with Expo, look at the following resources:
+- **Expo (React Native)** – Mobile development
+- **React Navigation** – Stack & Drawer navigation
+- **Clerk** – Authentication and user management
+- **GetStream.io** – Video/audio streaming and recording
+- **Next.js** – For secure Stream token generation (web + backend)
+- **React Hook Form** – Forms with validation
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+---
 
-## Join the community
+## 🧭 Navigation Overview
 
-Join our community of developers creating universal apps.
+### 🔁 Stack Navigator (Main)
+- `/` – Main stack with:
+  - `/(dashboard)` – Drawer navigator
+  - `/profile` – Profile screen
+  - `/meeting/[id]` – Dynamic meeting room
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 📂 Drawer Navigator (Inside Dashboard)
+- `/dashboard` – Meeting overview
+- `/recordings` – List of recorded meetings
+- `/scheduled` – Upcoming scheduled meetings
+- `/previous` – Past meetings history
+
+---
+
+## 🔐 Authentication (Clerk)
+
+- SignUp / SignIn / Verification via Clerk
+- Protected routing using `SignedIn` / `SignedOut`
+- Email and social logins support
+
+---
+
+## 📹 Meetings & Streaming (Stream)
+
+- Start and join real-time video meetings
+- Record meetings and store in dashboard
+- Meeting Types:
+  - **Dashboard** – Live/Upcoming overview
+  - **Scheduled** – Future events
+  - **Previous** – Past meetings
+  - **Recordings** – List of stored sessions
+
+---
+
+## 🔗 Stream Token Generation
+
+> 🔐 Tokens are generated using a secure **Next.js** app deployed as part of the same project ecosystem.
+
+🔗 **Next.js Stream Token App Repo**:  
+[Vidoom - Video meeting app](https://github.com/HarpalSingh7395/vidoom)
+
+This backend is also used to serve the **web version** of the app with the same logic.
+
+## 🛠️ Development Setup
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/your-username/vidoom-app.git
+cd vidoom-app
+```
+
+### 2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Setup environment variables
+Create a `.env` file at the root:
+```
+CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+STREAM_API_KEY=your_stream_api_key
+```
+
+### 4. Run development build
+```bash
+npx expo run:android
+# or
+npx expo run:ios
+```
+
+---
+
+## ✅ Planned Improvements
+
+- [ ] In-app chat with GetStream Chat
+- [ ] Push notifications for scheduled meetings
+- [ ] Admin panel (web) for organization control
+- [ ] Deep linking to join meetings directly

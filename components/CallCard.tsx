@@ -27,7 +27,7 @@ export default function CallCard({ title, date, link, type }: CallCardProps) {
 
     const onCopyLink = () => {
         if (!link) return;
-        setStringAsync((process.env.EXPO_BASE_URL || "") + link)
+        setStringAsync((process.env.EXPO_PUBLIC_WEB_URL || "") + link)
         toast("Link has been copied.")
     }
 
